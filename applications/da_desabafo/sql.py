@@ -130,7 +130,8 @@ structure = """
   CREATE TABLE rschemar.conteudo (
     id_conteudo SERIAL NOT NULL,
     id_idioma INTEGER DEFAULT 102,
-    titulo VARCHAR NOT NULL,    
+    titulo VARCHAR NOT NULL,
+    nome VARCHAR NOT NULL,    
     descricao VARCHAR NULL,
     arquivo VARCHAR,
     publicado BOOL NOT NULL DEFAULT 'False',
