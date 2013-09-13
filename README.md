@@ -1,4 +1,4 @@
-da-apps
-=======
+DA - Apps
+=========
 
-Aplicativos do DA
+Repositório de aplicativos do DA
