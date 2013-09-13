@@ -1,0 +1,16 @@
+
+conf_sites = {300: ("vrum", "nacional"), 
+              301: ("vrum", "estadodeminas"),
+              302: ("vrum", "correiobraziliense"),
+              303: ("vrum", "ig"),
+              304: ("vrum", "opopular"),
+              305: ("vrum", "diariodenatal"),
+              306: ("vrum", "diariodepernambuco"),
+              307: ("vrum", "folhadelondrina"),
+              308: ("vrum", "gazeta"),
+              309: ("vrum", "jornalonorte"),
+              310: ("vrum", "oimparcial"),
+              311: ("vrum", "jornaldotocantins"),
+              312: ("vrum", "diariodonordeste"),
+              313: ("vrum", "bbseguroauto"),
+              }
