@@ -42,7 +42,6 @@ class Public(object):
         return self._get_desabafo(limit=limit, offset=offset)
 
 
-    @jsoncallback
     @dbconnectionapp
     def get_count(self):
         count = list(self.execSql("select_count_for_paginator"))[0]['count']
