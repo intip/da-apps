@@ -84,6 +84,10 @@ select_desabafo_limit = """
         OFFSET %(offset)i
 """
 
+select_count_for_paginator = """
+    SELECT COUNT(*) FROM rschemar.conteudo;
+"""
+
 
 insert_conteudo = """
     INSERT INTO

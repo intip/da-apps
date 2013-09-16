@@ -35,8 +35,23 @@ class Public(object):
                               offset=int(offset)):
             lista.append(i)
             
-        return lista
+        return {"itens":lista, "qtde":self.get_count()}
 
     @jsoncallback
     def get_desabafo(self, limit=10, offset=0):
         return self._get_desabafo(limit=limit, offset=offset)
+
+
+    @jsoncallback
+    @dbconnectionapp
+    def get_count(self):
+        count = list(self.execSql("select_count_for_paginator"))[0]['count']
+        return count
+         
+        
+
+        
+
+        
+
+        
