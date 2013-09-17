@@ -76,12 +76,15 @@ select_desabafo_limit = """
         N.titulo,        
         N.nome,
         N.descricao, 
-        to_char(N.expira_em, 'YYYY-MM-DD HH24:MI') as expira_em, 
-        to_char(N.publicado_em, 'YYYY-MM-DD HH24:MI') as publicado_em, N.publicado, 
-        to_char(N.atualizado_em, 'YYYY-MM-DD HH24:MI') as atualizado_em         
-    FROM rschemar.conteudo N 
+        to_char(N.expira_em, 'DD-MM-YYYY HH24:MI') as expira_em, 
+        to_char(N.publicado_em, 'DD-MM-YYYY HH24:MI') as publicado_em, N.publicado, 
+        to_char(N.atualizado_em, 'DD-MM-YYYY HH24:MI') as atualizado_em                
+    FROM rschemar.conteudo N         
+        ORDER BY publicado_em DESC
         LIMIT  %(limit)i 
         OFFSET %(offset)i
+        
+        
 """
 
 select_count_for_paginator = """
