@@ -28,8 +28,8 @@ from adm import Adm
 
 haslist = True
 haslink = True
-title = "Da_consultoria"
-meta_type = "da_consultoria"
+title = "DA - Consultoria"
+meta_type = "DA - Consultoria"
 
 
 class App(BaseApp, PortalUtils, Adm, Public):
