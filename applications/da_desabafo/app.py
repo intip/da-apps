@@ -29,7 +29,7 @@ from adm import Adm
 haslist = True
 haslink = True
 title = "DA - Desabafo"
-meta_type = "DA - Desabafo"
+meta_type = "da_desabafo"
 
 
 class App(BaseApp, PortalUtils, Adm, Public):
