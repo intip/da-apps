@@ -109,6 +109,7 @@ class Public(object):
         """
         if status:
             concursos = []
+            count = list(self.execSql('select_count_' + status))[0]['count']
             sql = "select_concursos_" + status
             cont = 0
             for i in self.execSql(sql,
@@ -116,17 +117,13 @@ class Public(object):
                                   offset=int(offset)):
                 cont += 1
                 concursos.append(i)
-            return {"concursos": concursos, "total": cont, "qtde":self.get_count()}
+
+            return {"concursos": concursos, "total": cont, "qtde":count}
         else:
             return self.execSql('select_concursos',
                                 limit=int(limit),
                                 offset=int(offset))
-    
 
-    @dbconnectionapp
-    def get_count(self):
-        count = list(self.execSql("select_count_" + status))[0]['count'])
-        return count
 
     @dbconnectionapp
     def _getTotalVagas(self, filtro=False):

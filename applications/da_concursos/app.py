@@ -26,7 +26,7 @@ from time import time
 
 haslist = True
 haslink = True
-title = "DA - Concursos"
+title = "DA - os"
 meta_type = "da_concursos"
 
 
