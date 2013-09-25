@@ -55,7 +55,7 @@ select_videos            = ("SELECT id_conteudo, id_conteudo as id_video, sea_id
                             "FROM rschemar.conteudo "
                             "WHERE tags ~* %(tag)s ")
  
-select_video             = ("SELECT id_conteudo as id_video, sea_id, "
+select_video             = ("SELECT id_conteudo, id_conteudo as id_video, sea_id, "
                             "titulo, descricao, embed, thumb "
                             "FROM rschemar.conteudo " 
                             "WHERE sea_id = %(sea_id)i ")
