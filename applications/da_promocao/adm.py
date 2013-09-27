@@ -1040,18 +1040,17 @@ class Adm(object):
             if int(id_relatorio) == 4:
                 cont = 0
                 titulo_promo = self._getConteudo(id_promocao)['titulo']
-                sheet.write_merge(0, 0, 0, 5, u"Relação de partcipantes da promoção " +titulo_promo, style0)
+                sheet.write_merge(0, 0, 0, 5, u"Relação de partcipantes da promoção " + titulo_promo.decode('latin1'), style0)
                 campos_s1 = [{"nome":"Nome"},
                              {"email":"email"},
                              {"cpf":"CPF"},
                              {"telefone":"Telefone"},
                              {"endereco":u"Endereço"}]
-                saveplace = ("{0}/ns{1}/arquivos/tmp/"
-                           "{2}{3}.xls").format(str(settings.PATH_FILES),
+                saveplace = ("{0}/ns{1}/arquivos/tmp/{2}{3}.xls").format(str(settings.PATH_FILES),
                                                 str(self.id_site),
-                                                titulo + titulo_promo,
+                                                unicode(titulo + '_' + titulo_promo, errors='ignore'),
                                                 timename)
-                saveurl = "{0}tmp/{1}{2}.xls".format(base, titulo + titulo_promo, timename)                           
+                saveurl = "{0}tmp/{1}{2}.xls".format(base, unicode(titulo + '_' + titulo_promo, errors='ignore'), timename)                           
                 index += 1
                 for j in range(len(campos_s1)):
                         sheet.write(index, j, campos_s1[j].values()[0], style)
