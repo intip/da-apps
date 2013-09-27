@@ -106,14 +106,14 @@ class Public(object):
             retorna o autenticar da central
 
         """
-        sessao = self._verificaSessao(email)
+        #sessao = self._verificaSessao(email, id_conteudo)
         ip = self.request.getiphost()
         central = self._getAppAuth()
         captcha = self._getPlugCaptcha()
-        if sessao:
-            return {"type":"error",
-                    "description":sessao,
-                    "id":"7"}
+        #if sessao:
+            #return {"type":"error",
+                #    "description":sessao,
+                 #   "id":"7"}
         if self.ips:
             if ip in self.ips:
                 return {"type":"error",
@@ -278,15 +278,20 @@ class Public(object):
                    "id":"1"}  
 
     @dbconnectionapp
-    def _verificaSessao(self, email):
+    def _verificaSessao(self, email, id_conteudo=None):
         """
             verifica se o usuário participou
             de alguma promocão caso sim 
             retorna False senão retorna
             e horario que falta para logar
         """
-        res = self.execSql("select_dhora_participante",
-                           email=email)
+        if not id_conteudo:
+            res = list(self.execSql("select_dhora_participante",
+                                    email=email))
+        else:
+            res = list(self.execSql("select_dhora_participante_idconteudo",
+                                    email=email,
+                                    id_conteudo=id_conteudo))
         if res:
             for i in res:
                 data_user = datetime.strptime(i['dhora_participacao'],"%d/%m/%Y %H:%M") + timedelta(minutes=15)
@@ -296,6 +301,8 @@ class Public(object):
                     return str(temp)
                 else:
                     return False
+        else:
+            return False
 
     @dbconnectionapp
     def _getStatusUsuario(self, email):
@@ -403,7 +410,7 @@ class Public(object):
             else:
                 sessao = central._isSessionActive(cookie=COOKIE_ASSINANTE) 
             if sessao: 
-                temp = self._verificaSessao(email)
+                temp = self._verificaSessao(email, id_conteudo)
                 if temp:
                     return{"type":"error",
                            "description":temp,
@@ -435,10 +442,10 @@ class Public(object):
                                     id_conteudo=int(id_conteudo),
                                     status=status,
                                     frase=frase)
-                    if self.tipo == 'aberta':
-                        central._expiresUser(cookie=COOKIE_PROMO)
-                    else:
-                        central._expiresUser(cookie=COOKIE_ASSINANTE)
+                    #if self.tipo == 'aberta':
+                        #central._expiresUser(cookie=COOKIE_PROMO)
+                    #else:
+                        #central._expiresUser(cookie=COOKIE_ASSINANTE)
                         
                     return {"type":"ok",
                             "description":"sucesso",

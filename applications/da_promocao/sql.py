@@ -58,7 +58,7 @@ select_conteudo = ("SELECT N.id_conteudo, N.titulo, N.descricao, N.finalizada, "
 "WHERE N.id_conteudo=%(id_conteudo)i")
 
 select_conteudos = ("SELECT id_conteudo, titulo FROM rschemar.conteudo "
-"ORDER BY id_conteudo DESC")
+"ORDER BY id_conteudo ASC")
 
 select_usuario_promocao_id_conteudo = ("SELECT P.id_usuario, P.nome, P.cpf, P.email, P.bloqueio, N.status, "
 "C.id_conteudo, C.titulo, "
@@ -100,6 +100,8 @@ ON (SS.id_usuario=P.id_usuario)""")
 
 select_usuarios_promocoes_all2 = ("SELECT P.id_usuario, P.nome, P.cpf, P.email, "
 "P.telefone, P.endereco, P.cep, P.bairro, P.cidade, P.numero, P.estado, "
+"(SELECT count(*) FROM rschemar.participante_promocao "
+"WHERE id_conteudo=%(id_conteudo)i) as total, "
 "to_char(dhora_participacao, 'DD/MM/YYYY HH24:MI') as dhora_participacao  "
 "FROM rschemar.participante P "
 "INNER JOIN rschemar.participante_promocao N ON (N.id_usuario=P.id_usuario) "
@@ -187,6 +189,11 @@ select_regulamentos = ("SELECT id_regulamento, titulo, regulamento FROM rschemar
 
 select_dhora_participante = ("SELECT to_char(dhora_participacao, 'DD/MM/YYYY HH24:MI') as dhora_participacao "  
 "FROM rschemar.participante WHERE email=%(email)s ORDER BY id_usuario DESC LIMIT 1")
+
+select_dhora_participante_idconteudo = ("SELECT to_char(dhora_participacao, 'DD/MM/YYYY HH24:MI') as dhora_participacao "  
+"FROM rschemar.participante P "
+"RIGHT JOIN rschemar.participante_promocao PP ON (P.id_usuario=PP.id_usuario) "
+"WHERE P.email=%(email)s AND PP.id_conteudo=%(id_conteudo)s ORDER BY P.id_usuario DESC LIMIT 1")
 
 select_sorteados_promocao = ("SELECT P.id_usuario, P.nome, P.cpf, P.email, "
 "P.bloqueio, C.id_conteudo, C.titulo, N.status, S.dia_hora, "
