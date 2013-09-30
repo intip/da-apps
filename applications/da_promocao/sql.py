@@ -98,7 +98,7 @@ WHERE PS.email=P.email) as total
 FROM rschemar.participante P RIGHT JOIN rschemar.sorteados SS
 ON (SS.id_usuario=P.id_usuario)""")
 
-select_usuarios_promocoes_all2 = ("SELECT P.id_usuario, P.nome, P.cpf, P.email, "
+select_usuarios_promocoes_all2 = ("SELECT P.id_usuario, P.nome, P.cpf, P.email, N.status, "
 "P.telefone, P.endereco, P.cep, P.bairro, P.cidade, P.numero, P.estado, "
 "(SELECT count(*) FROM rschemar.participante_promocao "
 "WHERE id_conteudo=%(id_conteudo)i) as total, "

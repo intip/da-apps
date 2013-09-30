@@ -488,7 +488,7 @@ class Adm(object):
             i['cpf_pai'] = dados_pai['cpf_cnpj']
             i['nome_pai'] = dados_pai['nome']
             i["nome"] = i["nome"].decode("utf8").encode("latin1")
-            i["endereco"] = i["endereco"].decode("utf8").encode("latin1")
+            i["endereco"] = i["endereco"]
             if i["frase"]:
                 i["frase"] = i["frase"].decode("utf8").encode("latin1")
             return i  
@@ -885,11 +885,11 @@ class Adm(object):
         if int(id_relatorio) == 1:
             titulo = 'Relacao_usuario_participacao'
         elif int(id_relatorio) == 2:
-            titulo = 'Relacao_usuarios_contemplados'
+            titulo = 'Relacao_participantes_contemplados'
         elif int(id_relatorio) == 4:
             titulo = 'Dados_usuarios_por_promocao'
         else:
-            titulo = 'Relacao_usuarios_promocao'
+            titulo = 'Relacao_participantes_promocao'
         saveplace = ("{0}/ns{1}/arquivos/tmp/"
                      "{2}{3}.xls").format(str(settings.PATH_FILES),
                                           str(self.id_site),
@@ -1044,8 +1044,10 @@ class Adm(object):
                 campos_s1 = [{"nome":"Nome"},
                              {"email":"email"},
                              {"cpf":"CPF"},
-                             {"telefone":"Telefone"},
-                             {"endereco":u"Endereço"}]
+                             {"telefone":"Telefone"},                             
+                             {"endereco":u"Endereço"},
+                             {"status":"Status"}                            
+                             ]
                 saveplace = ("{0}/ns{1}/arquivos/tmp/{2}{3}.xls").format(str(settings.PATH_FILES),
                                                 str(self.id_site),
                                                 unicode(titulo + '_' + titulo_promo, errors='ignore'),
@@ -1076,7 +1078,10 @@ class Adm(object):
                                         self.dec(i['telefone']))
                     sheet.write(index + 1,
                                         4,
-                                        self.dec(endereco))    
+                                        self.dec(endereco))
+                    sheet.write(index + 1,
+                                        5,                                        
+                                        self.dec(i['status']))    
                     index += 1
                     cont += 1
             else:
