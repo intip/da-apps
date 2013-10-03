@@ -437,7 +437,7 @@ select_provas = """
 select_provas_total="""
     SELECT COUNT(*) 
     FROM rschemar.arquivos
-        WHERE tipo ='prova' AND permissao = 'livre'
+        WHERE tipo = %(docs)s AND permissao = 'livre'
 
 """
 

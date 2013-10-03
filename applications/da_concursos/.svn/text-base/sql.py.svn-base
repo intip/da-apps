@@ -434,6 +434,13 @@ select_provas = """
         WHERE tipo ='prova' AND permissao = 'livre'
     LIMIT %(limit)i OFFSET %(offset)i"""
 
+select_provas_total="""
+    SELECT COUNT(*) 
+    FROM rschemar.arquivos
+        WHERE tipo = %(docs)s AND permissao = 'livre'
+
+"""
+
 select_files = """
     SELECT
         id_arquivo,

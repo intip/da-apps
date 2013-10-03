@@ -1,7 +1,7 @@
 10
 
 dir
-1107
+1111
 svn://svnnew.estaminas.com.br/associados_publica/Publica/publica/aplications/da_concursos
 svn://svnnew.estaminas.com.br/associados_publica
 
@@ -26,16 +26,50 @@ gans
 
 1391f3f6-d681-40a2-a94a-666bcfbe6213
 
-public.py
+icon.png
 file
 
 
 
 
-2013-09-23T16:50:47.125218Z
-a0214b74e2c4cdba788f63312f583203
-2013-09-23T17:02:47.334320Z
-1102
+2013-09-23T14:32:54.538584Z
+3bb0ec3421f45e6c905a7bba2d215efb
+2013-09-18T13:12:07.527873Z
+1076
+rodrigo
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+812
+
+public.py
+file
+1112
+
+
+
+2013-10-03T18:42:43.425560Z
+f9c6a3a6a8c4fd8c1c4bc55abd4ee15c
+2013-10-03T18:43:28.517400Z
+1112
 gans
 
 
@@ -58,7 +92,7 @@ gans
 
 
 
-9498
+9724
 
 forms
 dir
@@ -99,14 +133,14 @@ rodrigo
 
 sql.py
 file
+1112
 
 
 
-
-2013-09-24T13:58:45.560934Z
-b7f012efcb71f1ab6f64b055d25897d9
-2013-09-24T14:27:07.365341Z
-1103
+2013-10-03T18:41:41.905467Z
+ec86265b9b5bd8226929a7a1c98c603d
+2013-10-03T18:43:28.517400Z
+1112
 gans
 
 
@@ -129,7 +163,7 @@ gans
 
 
 
-25002
+25143
 
 app.py
 file
@@ -198,38 +232,4 @@ gans
 
 
 18556
-
-icon.png
-file
-
-
-
-
-2013-09-23T14:32:54.538584Z
-3bb0ec3421f45e6c905a7bba2d215efb
-2013-09-18T13:12:07.527873Z
-1076
-rodrigo
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-812
 

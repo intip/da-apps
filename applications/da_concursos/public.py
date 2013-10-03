@@ -192,14 +192,13 @@ class Public(object):
         return res
 
     @dbconnectionapp
-    def _getFilesTotal(self):
+    def _getFilesTotal(self, tipo):
         """
             retorna total de provas
             cadastradas
         """
-        return list(self.execSql("select_provas_total"))
-        
-                
+        return list(self.execSql("select_provas_total", docs=tipo))
+               
 
     @jsoncallback
     def getArquivos(self, provas=False, limit=10, offset=0):
