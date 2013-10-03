@@ -451,7 +451,7 @@ select_files = """
         categoria,
         descricao
     FROM rschemar.arquivos
-        WHERE tipo ='documento' AND permissao = 'restrito'
+        WHERE tipo ='documento' AND permissao = 'livre'
     LIMIT %(limit)i OFFSET %(offset)i"""
 
 select_restricted_files = """
