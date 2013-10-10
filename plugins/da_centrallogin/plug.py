@@ -456,6 +456,72 @@ class Plug:
                     "description":"error ao autenticar",
                     "id":"3"}
 
+    @jsoncallback
+    def autenticarJornal(self, login, senha):
+        """
+            encapsulamento do metodo autenticarAssinante
+            em json
+        """
+        return self._autenticarJornal(login=login,
+                                         senha=senha)
+
+
+    def _autenticarJornal(self, login, senha, id_servico = 0, cookie=None):        
+        """
+           erros:
+               3 - error ao autenticar
+           Sucesso:
+               1 - usuário autenticado com sessao
+               2 - usuário autenticado sem sessao               
+        """        
+        session = self._getAppSession()
+        proxy = self._getProxy(suds=True)   
+        provedor = self.dados.get("provedor", 1)     
+        res = proxy.autenticaAssinanteJornal(login,
+                                             senha,
+                                             self.dados.get("provedor", 1),
+                                             id_servico if id_servico else self.dados["id_servico"],
+                                             self.dados["wsdl_origin"])        
+        if int(res.result):
+            if session:             
+                dnow, dtpas = session._gdt()
+                sessiondate = session._getDados()
+                id = session._psid()
+                if provedor == '1':
+                    nomestart = 'em'
+                else:
+                    nomestart = 'cb'
+                login = login if login.startswith(nomestart) else nomestart+login                
+                dados = self._getUserData(login)
+                expires = datetime.datetime.now() + datetime.timedelta(hours=1)
+                extra = encode({"nome": dados['nome'], "cpf_cnpj": dados['cpf_cnpj'], "email": dados['email']})
+                nome = urllib.quote(dados['nome'].encode("latin1"))
+                session._sessionAdd(id_session=id,
+                                         nome=dados['nome'].encode("latin1"),
+                                         email=login,
+                                         datahorae=dtpas,
+                                         extr=extra)
+                valor = "%s|%s|%s" % (id, nome, login)
+                name_host = sessiondate["site"]
+                cookie = cookie if cookie else COOKIE_NAME
+                self.request.setCookie(cookie,
+                                          valor,
+                                          expires="",
+                                          host=name_host)
+
+                return {"type":"ok",
+                        "description": "autenticado com sessao",
+                        "id": "2"}
+            else:        
+                return {"type": "ok",
+                        "description": "autenticado sem sessao",
+                         "id": "1"}
+        else:
+            return {"type":"error",
+                    "description":"error ao autenticar",
+                    "id":"3"}
+
+
     def _insereEndereco(self, email, rua, numero, complemento,
                         bairro, cidade, estado, cep, pais,
                         tipo="1", codigo_externo=''):
