@@ -1,0 +1,137 @@
+<tal:block tal:define="mod python:getAplicativoByTitulo('Desabafo');
+           desabafo python:mod._get_desabafo();
+           count desabafo/qtde">
+<script type="text/javascript" tal:content="python: utils.py2js(COUNT = int(count))">
+</script>                       
+<div class="page-header mgb-large">
+  <h4 style="color: #284D88; font-size: 24px;">Desabafo <small class="hidden-tablet hidden-phone"></small></h4>
+</div>
+<!--Portlet #1-->
+<div class="mgb-large">
+  <div class="pdl-small pdr-small">
+    
+    <!--Apresentação-->
+    <div class="media">
+      <div class="pull-left hidden-phone">
+        <i class="icon-bullhorn fs-100"></i>
+      </div>
+      <div class="media-body">
+        <p><tal:block  tal:content="python: itens[0]['descricao']">
+          Este é um espaço aberto a todos os internautas para inclusão de depoimentos, denúncias e desabafos sobre concursos. Mensagens com insultos, provocações ou assuntos diferentes não serão incluídas.
+          O Concursos não se responsabiliza por mensagens inverídicas ou incorretas. Mas garantimos o direito de resposta a todos os órgãos ou pessoas que forem citados ou quiserem participar.
+          * incluiremos na página somente o primeiro nome do participante
+          </tal:block>
+          <br>
+          <div><a href="#" tal:attributes="href python: 'mailto:' + itens[0]['email']"><i class="icon-envelope mgt-small"></i> Mande seu desabafo!</a></div>
+        </p>
+      </div>
+    </div>
+    
+    <hr>
+    <div class="paginator">
+    <!--Item 1-->
+    <div class="mgb-large bbd-cinza1" tal:repeat="i desabafo/itens">
+      <div class="reset-mgT reset-mgB"><small class="mgb-large fcinza-e"><i class="icon-calendar"></i><tal:block tal:content="i/publicado_em"> Publicado: 14/05/2013</tal:block></small></div>
+      <h3 class="fs-18 mgt-small mgb-normal lineH20" tal:content="i/titulo">Reclamação sobre demora na publicação de resultados para o Detran/DF</h3>
+      <p class="mgt-normal mgb-large fcinza-m">
+        <i class="icon-quote-left fs-30 pull-left"></i><tal:block tal:content="i/descricao"> Prezados, venho por meio deste registrar a minha indignação quanto à ausência/desencontro de informações do concurso para provimento de 
+        servidor efetivo do Ministério da Cultura. Ocorre que o concurso foi realizado em 7 de abril deste ano pela desconhecida banca
+        Instituto Cidades e até o momento não houve divulgação dos resultados das provas discursivas. O movimento de indignação quanto 
+        à ausência de informações no fórum do CorreioWeb é grande e todos aqueles que solicitaram informações obtiveram respostas um tanto 
+        quanto incongruentes. A banca informa que depende do Ministério a divulgação e o Ministério informa que já tem os resultados, mas 
+        não publica por falta de envio de documento da banca. Resta clara a desorganização e a falta de respeito com os candidatos que não 
+        recebem uma resposta devida e tão pouco possuem um cronograma do concurso como ocorre com bancas acostumadas em realizar certames 
+        desta magnitude. Enfim, em nome de todos os concurseiros que acessam o CorreioWeb, solicito a divulgação dessas informações para 
+        quem sabe, obtermos uma resposta definitiva do MinC.</tal:block>
+      </p>
+      <div>
+        <blockquote class="pull-right" tal:content="i/nome">Anônimo</blockquote>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    </div>
+    
+    
+    <!--Paginação-->
+    <div class="form-actions reset-pdt reset-pdb">
+      <div class="">
+        <ul class="pager">
+          <li class="previous doub"><a href="javascript:void(0)" i><i class="icon-double-angle-left"></i></a></li>
+          <li class="previous one"><a href="javascript:void(0)"><i class="icon-angle-left"></i>Anterior</a></li>
+          <li class="taC"><span id="controle">Mostrando (1-10) de 1 resultados.</span></li>
+          <li class="next doub"><a href="javascript:void(0)"><i class="icon-double-angle-right"></i></a></li>
+          <li class="next one"><a href="javascript:void(0)">Próximo<i class="icon-angle-right"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+</div>
+</tal:block>
+<script type="text/javascript">
+url = "http://app.dev.concursos.correioweb.com.br/apps,55,5/desabafo?callback=?" ;
+limit = 10;
+offset= limit;
+quantit =  COUNT;
+
+controle(0, limit, quantit);
+
+$('.next.one').click(function(){    
+    if(quantit - offset > limit){
+      a_page(limit, offset);
+      controle(offset, limit, quantit)
+      offset = offset + limit;
+    }else{
+      a_page(limit, offset);
+      controle(offset, limit, quantit);
+
+    }
+});
+$('.next.doub').click(function(){  
+    offset = quantit - limit;  
+    a_page(limit, offset);
+    controle(offset, limit, quantit);
+});
+
+$('.previous.one').click(function(){
+    if(offset > limit){
+      offset = offset - limit;       
+      a_page(limit, offset);
+      controle(offset, limit, quantit)      
+    }else{
+      a_page(limit, 0);
+      controle(0, limit, quantit);
+    }
+
+})
+function a_page(limit, offset){
+    limit = limit;   
+    offset = offset;    
+    $('.paginator').html("");
+    $.getJSON(url,{'limit':limit,'offset':offset}, function(data){
+      dic = data['ok']['itens'];
+      $.each( dic,function(i){
+          var desabafo_parse="";
+              desabafo_parse += "<div class=\"mgb-large bbd-cinza1\">";
+              desabafo_parse += "      <div class=\"reset-mgT reset-mgB\"><small class=\"mgb-large fcinza-e\"><i class=\"icon-calendar\"><\/i>Publicado: " 
+              + dic[i]['publicado_em']+ "<\/small><\/div>";
+              desabafo_parse += "      <h3 class=\"fs-18 mgt-small mgb-normal lineH20\"> " +dic[i]['titulo']+ "<\/h3>";
+              desabafo_parse += "      <p class=\"mgt-normal mgb-large fcinza-m\">";
+              desabafo_parse += "        <i class=\"icon-quote-left fs-30 pull-left\"><\/i> " +dic[i]['descricao']+ "<\/p>";
+              desabafo_parse += "      <div>";
+              desabafo_parse += "        <blockquote class=\"pull-right\"> " +dic[i]['nome']+ "<\/blockquote>";
+              desabafo_parse += "        <div class=\"clearfix\"><\/div>";
+              desabafo_parse += "      <\/div>";
+              desabafo_parse += "    <\/div>";              
+          $('.paginator').append(desabafo_parse)  
+      })
+    })
+}
+function controle(offset, limit, quantit){
+   if(offset + limit > quantit){
+      limit = quantit % offset;
+   } 
+  $('#controle').html("Mostrando " + (offset + 1) + " - " + (parseInt(offset) + parseInt(limit)) +  " de " + quantit + " resultados.");
+}
+
+</script>
