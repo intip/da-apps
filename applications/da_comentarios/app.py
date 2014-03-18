@@ -50,7 +50,8 @@ class App(BaseApp, PortalUtils, Adm, Public):
     @dbconnectionapp
     def _install(self, title, facebook_client_id, facebook_secret,
                  facebook_redirect_url, google_client_id, google_secret,
-                 google_redirect_url,
+                 google_redirect_url, twitter_consumer_key,
+                 twitter_consumer_secret,
                  rss_titulo=None, rss_link=None, rss_descricao=None,
                  rss_idioma=None, rss_categoria=None, rss_copyright=None,
                  rss_imagem_titulo=None, rss_imagem_link=None,
@@ -101,6 +102,10 @@ class App(BaseApp, PortalUtils, Adm, Public):
             "google_secret": google_secret,
             "google_redirect_url": google_redirect_url,
 
+            #twitter
+            "twitter_consumer_key": twitter_consumer_key,
+            "twitter_consumer_secret": twitter_consumer_secret,
+
             "rss": rss
         }
 
@@ -109,7 +114,8 @@ class App(BaseApp, PortalUtils, Adm, Public):
     @Permission("ADM APP")
     def editApp(self, title, facebook_client_id, facebook_secret,
                 facebook_redirect_url, google_client_id, google_secret,
-                google_redirect_url,
+                google_redirect_url, twitter_consumer_key,
+                twitter_consumer_secret,
                 rss_titulo=None, rss_link=None, rss_descricao=None,
                 rss_idioma=None, rss_categoria=None, rss_copyright=None,
                 rss_imagem_titulo=None, rss_imagem_link=None,
@@ -139,6 +145,10 @@ class App(BaseApp, PortalUtils, Adm, Public):
             "google_client_id": google_client_id,
             "google_secret": google_secret,
             "google_redirect_url": google_redirect_url,
+
+            #twitter
+            "twitter_consumer_key": twitter_consumer_key,
+            "twitter_consumer_secret": twitter_consumer_secret,
 
             "rss": rss
         }
