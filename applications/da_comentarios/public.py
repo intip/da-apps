@@ -14,10 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import cgi
 from publica.core.portal import Portal
-from datetime import datetime
+from publica.utils.decorators import jsoncallback
 from rauth_wrapper.oauth_manager import TwitterConnect
 
+TWITTER_TOKEN_COOKIE_NAME = 'request_token'
 TWITTER_OAUTH_COOKIE_NAME = 'oauth_verifier'
 
 
@@ -35,24 +37,49 @@ class Public(object):
         return TwitterConnect(self._session_data['twitter_consumer_key'],
                               self._session_data['twitter_consumer_secret'])
 
+    def _set_cookie(self, name, value):
+        name_host = self.get_name_host()
+        self.request.setCookie(name=name, value=value, host=name_host,
+                               expires="")
+
+    def get_name_host(self):
+        return 'da.intip.com.br'
+
+    @jsoncallback
     def twitter_authorize_url(self):
         t = self._get_twitter_connect()
         t.get_request_token()
+        request_token = "%s|%s" % (t.request_token, t.request_token_secret)
+        try:
+            self._set_cookie(TWITTER_TOKEN_COOKIE_NAME, request_token)
+        except Exception as e:
+            return {'erro': e}
         return {'twitter_auth_url': t.get_authorize_url()}
 
+    @jsoncallback
     def twitter_callback_url(self, oauth_verifier):
-        name_host = self._session_data["site"]
-        expires = datetime.datetime.now() - datetime.timedelta(hours=1)
-        self.request.setCookie(
-            name=TWITTER_OAUTH_COOKIE_NAME,
-            value=oauth_verifier,
-            host=name_host,
-            expires=expires)
+        try:
+            request_token, request_secret = self.request.getCookie(
+                TWITTER_TOKEN_COOKIE_NAME).split('|')
+            t = self._get_twitter_connect()
+            res = t.service.get_raw_access_token(
+                request_token, request_secret,
+                params={'oauth_verifier': oauth_verifier})
+            content = cgi.parse_qs(res.content)
+            access_token = "%s|%s" % (content['oauth_token'][0],
+                                      content['oauth_token_secret'][0])
+            self._set_cookie('access_token', access_token)
+        except Exception as e:
+            return {'erro': e}
+        return {'ok': True}
 
+    @jsoncallback
     def twitter_get_userinfo(self):
-        oauth_verifier = self.request.getCookie(TWITTER_OAUTH_COOKIE_NAME)
-        t = self._get_twitter_connect()
-        session = t.get_session(oauth_verifier)
-        userinfo = session.get('account/verify_credentials.json')
-        return {'userinfo': userinfo}
-
+        try:
+            token = self.request.getCookie('access_token').split('|')
+            t = self._get_twitter_connect()
+            session = t.service.get_session(token)
+            userinfo = session.get('account/verify_credentials.json')
+            return {'userinfo': userinfo.json()}
+        except Exception as e:
+            return {'erro': e}

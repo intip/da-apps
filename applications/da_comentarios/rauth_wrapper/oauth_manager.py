@@ -94,7 +94,7 @@ class TwitterConnect(BaseConnect):
         )
 
     def get_request_token(self):
-        self.request_token, self.request_token_secret = \
+        (self.request_token, self.request_token_secret) = \
             self.service.get_request_token()
 
     def get_authorize_url(self):
@@ -104,12 +104,9 @@ class TwitterConnect(BaseConnect):
 
         return self.service.get_authorize_url(self.request_token)
 
-    def get_session(self, oauth_verifier):
-        if not self.request_token:
-            raise Exception('You should call get_request_token first')
-
+    def get_session(self, oauth_token, oauth_secret, oauth_verifier):
         return self.service.get_auth_session(
-            self.request_token, self.request_token_secret,
+            oauth_token, oauth_secret,
             params={'oauth_verifier': oauth_verifier})
 
 
